@@ -1,4 +1,4 @@
-package calculator
+package gotest
 
 import "testing"
 
@@ -8,6 +8,15 @@ type container interface{}
 type Assertions struct {
 	equals    func(a, b container) Assertions
 	notEquals func(a, b container) Assertions
+}
+
+//Test exposes assertion functions
+func Test(t *testing.T) Assertions {
+
+	return Assertions{
+		equals:    equals(t),
+		notEquals: notEquals(t),
+	}
 }
 
 func equals(t *testing.T) func(a, b container) Assertions {
@@ -31,14 +40,5 @@ func notEquals(t *testing.T) func(a, b container) Assertions {
 		}
 
 		return Test(t)
-	}
-}
-
-//Test exposes assertion functions
-func Test(t *testing.T) Assertions {
-
-	return Assertions{
-		equals:    equals(t),
-		notEquals: notEquals(t),
 	}
 }
