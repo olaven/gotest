@@ -6,60 +6,36 @@ import (
 
 type Container interface{}
 
-/* func equals(test *testing.T, a, b Container) {
-
-	if a != b {
-		test.Error("Expected to be the same", a, b)
-	}
-} */
-
-type ITest interface {
-	equality(a, b Container)
-}
 type Test struct {
+	equals func(a, b Container) Test
 }
 
-func (Test) equality(a, b Container) {
-	if a != b {
-		test.Error("Expected to be the same", a, b)
-	}
-}
+func test(t *testing.T) Test {
 
-func equalsWrapper(test *testing.T) func(a, b Container) {
-
-	return func(a, b Container) {
+	equals := func(a, b Container) Test {
 
 		if a != b {
-			test.Error("Expected to be the same", a, b)
+			t.Error("Expected", a, "to equal", b)
 		}
+
+		return test(t)
+	}
+
+	return Test{
+		equals,
 	}
 }
+func TestAdd(t *testing.T) {
 
-func test(test *testing.T) ITest {
-
+	test(t).
+		equals(6, Add(2, 4)).
+		equals(2, Add(4, -2)).
+		equals(-3, Add(-1, -2))
 }
 
-func TestAdd(test *testing.T) {
+func TestSubtract(t *testing.T) {
 
-	equals(test, 6, Add(2, 4))
-}
-
-func TestAddNegative(test *testing.T) {
-
-	equals(test, 2, Add(4, -2))
-}
-
-func TestAddTwoNegative(test *testing.T) {
-
-	equals(test, -3, Add(-1, -2))
-}
-
-func TestSubtract(test *testing.T) {
-
-	equals(test, 10, Subtract(20, 10))
-}
-
-func TestSubtractNegative(test *testing.T) {
-
-	equals(test, -5, Subtract(5, 10))
+	test(t).
+		equals(10, Subtract(20, 10)).
+		equals(-5, Subtract(5, 10))
 }
