@@ -7,6 +7,7 @@ import (
 func TestAdd(t *testing.T) {
 
 	Test(t).
+		notEquals(Add(2, 2), Add(2, 1)).
 		equals(6, Add(2, 4)).
 		equals(2, Add(4, -2)).
 		equals(-3, Add(-1, -2))

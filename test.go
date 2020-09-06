@@ -6,13 +6,13 @@ type container interface{}
 
 //Assertions defines possible assertion methods
 type Assertions struct {
-	equals func(a, b container) Assertions
+	equals    func(a, b container) Assertions
+	notEquals func(a, b container) Assertions
 }
 
-//Test exposes assertion functions
-func Test(t *testing.T) Assertions {
+func equals(t *testing.T) func(a, b container) Assertions {
 
-	equals := func(a, b container) Assertions {
+	return func(a, b container) Assertions {
 
 		if a != b {
 			t.Error("Expected", a, "to equal", b)
@@ -20,8 +20,25 @@ func Test(t *testing.T) Assertions {
 
 		return Test(t)
 	}
+}
+
+func notEquals(t *testing.T) func(a, b container) Assertions {
+
+	return func(a, b container) Assertions {
+
+		if a == b {
+			t.Error("Expected", a, "_not_ to equal", b)
+		}
+
+		return Test(t)
+	}
+}
+
+//Test exposes assertion functions
+func Test(t *testing.T) Assertions {
 
 	return Assertions{
-		equals,
+		equals:    equals(t),
+		notEquals: notEquals(t),
 	}
 }
