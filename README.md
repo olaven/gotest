@@ -13,9 +13,9 @@ import (
 func TestGotest(t *testing.T) {
 
     gotest.Test(t).
-        equals(2, 2).
-        equals("a", "a").
-        notEquals(1, 2).
-        notEquals("a", "b")
+		Equals(2, 2).
+		Equals("a", "a").
+		NotEquals(1, 2).
+		NotEquals("a", "b")
 }
 ```
