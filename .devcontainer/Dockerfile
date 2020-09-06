@@ -1,6 +1,5 @@
-# [Choice] Go version: 1, 1.15, 1.14
 # See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.140.0/containers/go/.devcontainer/base.Dockerfile
-ARG VARIANT="1"
+ARG VARIANT="1.15"
 FROM mcr.microsoft.com/vscode/devcontainers/go:0-${VARIANT}
 
 # [Option] Install Node.js
